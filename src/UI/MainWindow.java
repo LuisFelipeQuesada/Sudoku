@@ -11,19 +11,17 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import Files.ReadXml;
-import game.Block;
 import game.Board;
 /**
  *
- * @author felipe
+ * @author Luis Felipe Quesada
  */
 public class MainWindow {
     
     JFrame window = null;
-    GridLayout optionsLayout, boardLayout, blockLayout = null;
+    GridLayout optionsLayout, boardLayout = null;
     BorderLayout mainLayout = null;
-    JPanel windowPanel, panelOptions, boardPanelPrin, boardPanel, boardPanelBack, blockPanel = null;
-    JTextField text = null;
+    JPanel windowPanel, panelOptions, boardPanelPrin, boardPanel, boardPanelBack = null;
     JButton buttonOption, buttonBack = null;
             
     public MainWindow() {
@@ -40,7 +38,6 @@ public class MainWindow {
         
         mainLayout = new BorderLayout();
         window.setLayout(mainLayout);
-        window.add(addMenu(), mainLayout.NORTH);
         window.add(windowPanel, mainLayout.CENTER);
     }
     
@@ -69,14 +66,25 @@ public class MainWindow {
             public void actionPerformed(ActionEvent e) {
                 JButton src = (JButton)e.getSource();
                 if(Integer.valueOf(src.getName()) == 0) {
-                    ReadXml xml = new ReadXml();
-                    Board board = new Board();
+                    ReadXml xml = new ReadXml(0);
+                    Board board = new Board(xml.createMatrix());
+                    JTextField cells[][] = createBoardCells();
+                    fillBoardCells(cells, board.getBoard());
+                    addboardCells(boardPanel, cells);
                 }
                 else if(Integer.valueOf(src.getName()) == 1) {
-                    // Cargar sudoku medio
+                    ReadXml xml = new ReadXml(1);
+                    Board board = new Board(xml.createMatrix());
+                    JTextField cells[][] = createBoardCells();
+                    fillBoardCells(cells, board.getBoard());
+                    addboardCells(boardPanel, cells);
                 }
                 else {
-                    // Cargar sudoku difícil
+                    ReadXml xml = new ReadXml(2);
+                    Board board = new Board(xml.createMatrix());
+                    JTextField cells[][] = createBoardCells();
+                    fillBoardCells(cells, board.getBoard());
+                    addboardCells(boardPanel, cells);
                 }
                 CardLayout cardLayout = (CardLayout) windowPanel.getLayout();
                 cardLayout.show(windowPanel, "boardPanel");
@@ -89,13 +97,8 @@ public class MainWindow {
         boardPanelPrin = new JPanel(new BorderLayout());
         boardPanel = new JPanel();
         boardPanelBack = new JPanel();
-        boardLayout = new GridLayout(3, 3);
+        boardLayout = new GridLayout(9, 9);
         boardPanel.setLayout(boardLayout);
-        for(int i = 0; i < 3; i++) {
-            for(int j = 0; j < 3; j++) {
-                boardPanel.add(createBlock());
-            }
-        }
         
         buttonBack = new JButton("Back");
         buttonBack.addActionListener(new ActionListener() {
@@ -103,11 +106,9 @@ public class MainWindow {
             public void actionPerformed(ActionEvent e) {
                 CardLayout cardLayout = (CardLayout) windowPanel.getLayout();
                 cardLayout.show(windowPanel, "panelOptions");
+                boardPanel.removeAll();
             }
         });
-        
-        
-        
         boardPanelBack.add(buttonBack);
         
         boardPanelPrin.add(boardPanel, mainLayout.CENTER);
@@ -116,27 +117,57 @@ public class MainWindow {
         return boardPanelPrin;
     }
     
-    public JPanel createBlock() {
-        blockPanel = new JPanel();
-        blockPanel.setSize(150, 150);
-        blockPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+    // Sett the block in the parent: boardPanel
+    public void setBlocks() {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
-                blockPanel.add(boardCells(String.valueOf(i) + "." + String.valueOf(j)));
+                boardPanel.add(createBlock());
             }
-        }     
-        blockLayout = new GridLayout(3, 3);
+        }
+    }
+    
+    public JPanel createBlock() {
+        JPanel blockPanel = new JPanel();
+        blockPanel.setSize(150, 150);
+        blockPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        GridLayout blockLayout = new GridLayout(3, 3);
         blockPanel.setLayout(blockLayout);
+        
         return blockPanel;
     }
     
-    public JTextField boardCells(String name) {
-        text = new JTextField(1);
-        text.setName(name);
-        text.setBorder(BorderFactory.createLineBorder(Color.black));
-        text.setHorizontalAlignment(JTextField.CENTER);
-        Font f = new Font("SansSerif", Font.BOLD, 24);
-        text.setFont(f);
-        return text;
+    // Creates the cells and adds them to the parent
+    public void addboardCells(JPanel parent, JTextField[][] cellsMatrix) {
+        JTextField text = null;
+        for(int row = 0; row < cellsMatrix.length; row++) {
+            for(int col = 0; col < cellsMatrix[row].length; col++) {
+                parent.add(cellsMatrix[row][col]);
+            }
+        }
     }
+    
+    private JTextField[][] createBoardCells() {
+        JTextField[][] mat = new JTextField[9][9];
+        JTextField text = null;
+        for(int row = 0; row < 9; row++) {
+            for(int col = 0; col < 9; col++) {
+                text = new JTextField(1);
+                text.setBorder(BorderFactory.createLineBorder(Color.black));
+                text.setHorizontalAlignment(JTextField.CENTER);
+                Font f = new Font("SansSerif", Font.BOLD, 24);
+                text.setFont(f);
+                mat[row][col] = text;
+            }
+        }
+        return mat;
+    }
+    
+    private void fillBoardCells(JTextField[][] cellsMatrix, int[][] data) {
+        JTextField matrix[][] = cellsMatrix;
+        for(int row = 0; row < data.length; row++) {
+            for(int col = 0; col < data[row].length; col++) {
+                matrix[row][col].setText(String.valueOf(data[row][col]));
+            }
+        }
+    }    
 }

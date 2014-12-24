@@ -28,12 +28,36 @@ public class ReadXml {
     DocumentBuilder dBuilder = null;
     Document doc = null;
     int[][] matrix = null;
+    int level;
 
-    public ReadXml() {
+    public ReadXml(int level) {
+        this.matrix = new int[9][9];
+        this.level = level;
+        
+        String fileSeparator = System.getProperty("file.separator");
+        String fileName;
+        
         try {
+            switch(level) {
+                case 0:
+                    fileName = "src" + fileSeparator + "Files" + fileSeparator + "files" + fileSeparator + "easy" + fileSeparator + "sol_1.xml";
+                    break;
+                case 1:
+                    fileName = "src" + fileSeparator + "Files" + fileSeparator + "files" + fileSeparator + "medium" + fileSeparator + "sol_1.xml";
+                    break;
+                case 2:
+                    fileName = "src" + fileSeparator + "Files" + fileSeparator + "files" + fileSeparator + "hard" + fileSeparator + "sol_1.xml";
+                    break;
+                default:
+                    fileName = "src" + fileSeparator + "Files" + fileSeparator + "files" + fileSeparator + "easy" + fileSeparator + "sol_1.xml";
+                    break;
+            }
+            
+            
             String workingDir = System.getProperty("user.dir");
-            String path = workingDir + "\\src\\Files\\files\\sol_1.xml";
-            xmlFile = new File(path);
+            String absoluteFilePath = workingDir + System.getProperty("file.separator") + fileName;
+            
+            xmlFile = new File(absoluteFilePath);
             dbFactory = DocumentBuilderFactory.newInstance();
             dBuilder = dbFactory.newDocumentBuilder();
             doc = dBuilder.parse(xmlFile);
@@ -44,22 +68,15 @@ public class ReadXml {
         }
     }
     
-    public int[][] readFile() {
+    public int[][] createMatrix() {
         NodeList nodeList = doc.getElementsByTagName("row");
-        matrix = new int[3][3];
-        int counter = 0;
-        for (int temp = 0; temp < nodeList.getLength(); temp++) {
-            Node node = nodeList.item(temp);
+        for (int row = 0; row < nodeList.getLength(); row++) {
+            Node node = nodeList.item(row);
             
             Element element = (Element) node;
-            element.getAttribute("id");
-            matrix[temp][0] = Integer.valueOf(element.getElementsByTagName("cell").item(0).getTextContent());
-            matrix[temp][1] = Integer.valueOf(element.getElementsByTagName("cell").item(1).getTextContent());
-            matrix[temp][2] = Integer.valueOf(element.getElementsByTagName("cell").item(2).getTextContent());
-            counter += 3;
             
-            if(counter == 9) {
-                Block block = new Block(matrix);
+            for(int col = 0; col < 9; col++) {
+                matrix[row][col] = Integer.valueOf(element.getElementsByTagName("cell").item(col).getTextContent());
             }
 	}
         return matrix;
