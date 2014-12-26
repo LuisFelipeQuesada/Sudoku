@@ -9,6 +9,7 @@ import java.util.Random;
 public class Board {
     
     private int[][] matrix, res = null;
+    private int row, col, data = 0;
     
     public Board(int[][] matrix, int level) {
         this.matrix = matrix;
@@ -54,7 +55,16 @@ public class Board {
         return number;
     }
     
-    public boolean validateCell(int row, int col, int data) {
+    public void getCell(int r, int c) {
+        row = r;
+        col = c;
+    }
+    
+    public void getInput(int d) {
+        data = d;
+    }
+    
+    public boolean validateCell() {
         boolean res = false;
         if(matrix[row][col] == data) {
             res = true;

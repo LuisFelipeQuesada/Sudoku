@@ -6,9 +6,9 @@
 package UI;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
 
 import Files.ReadXml;
 import game.Board;
@@ -28,6 +28,7 @@ public class MainWindow {
     JTextField text, textField = null;
     String textFromCell, textName;
     int row, col, index, data;
+    Board board = null;
             
     public MainWindow() {
         blocksList = new ArrayList();
@@ -78,7 +79,7 @@ public class MainWindow {
                 if(Integer.valueOf(src.getName()) == 0) {
                     blocksList.clear();
                     ReadXml xml = new ReadXml(0);
-                    Board board = new Board(xml.createMatrix(), 0);
+                    board = new Board(xml.createMatrix(), 0);
                     JTextField cells[][] = createBoardCells();
                     fillBoardCells(cells, board.getUserBoard());
                     setBlocks(boardPanel);
@@ -87,7 +88,7 @@ public class MainWindow {
                 else if(Integer.valueOf(src.getName()) == 1) {
                     blocksList.clear();
                     ReadXml xml = new ReadXml(1);
-                    Board board = new Board(xml.createMatrix(), 1);
+                    board = new Board(xml.createMatrix(), 1);
                     JTextField cells[][] = createBoardCells();
                     fillBoardCells(cells, board.getUserBoard());
                     setBlocks(boardPanel);
@@ -96,7 +97,7 @@ public class MainWindow {
                 else {
                     blocksList.clear();
                     ReadXml xml = new ReadXml(2);
-                    Board board = new Board(xml.createMatrix(), 2);
+                    board = new Board(xml.createMatrix(), 2);
                     JTextField cells[][] = createBoardCells();
                     fillBoardCells(cells, board.getUserBoard());
                     setBlocks(boardPanel);
@@ -148,7 +149,7 @@ public class MainWindow {
         GridLayout blockLayout = new GridLayout(3, 3);
         blockPanel.setLayout(blockLayout);
         blockPanel.setSize(150, 150);
-        blockPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        blockPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#CC0000")));
         blocksList.add(blockPanel);
         return blockPanel;
     }
@@ -184,27 +185,23 @@ public class MainWindow {
             for(int col = 0; col < 9; col++) {
                 text = new JTextField(1);
                 text.setName(String.valueOf(row) + "." + String.valueOf(col));
-                text.setBorder(BorderFactory.createLineBorder(Color.black));
+                text.setBorder(BorderFactory.createLineBorder(Color.decode("#CC0000")));
                 text.setHorizontalAlignment(JTextField.CENTER);
-                Font f = new Font("SansSerif", Font.BOLD, 24);
+                
+                // Agregar tipo de Font al TextField
+                Font f = new Font("SansSerif", Font.ROMAN_BASELINE, 24);
                 text.setFont(f);
-                //text.addActionListener(this);
+                
+                // Agregar Listeners al TextField
+                text.addFocusListener(new TextFieldFocusListener(board));
+                text.getDocument().addDocumentListener(new TextFieldDocumentListener(board, text));
+                
+                // Agregar textfield a la matriz
                 mat[row][col] = text;
             }
             text = new JTextField(1);
         }
         return mat;
-    }
-    
-    public void actionPerformed(ActionEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        textFromCell = textField.getText();
-        textName = textField.getName();
-        data = Integer.valueOf(textFromCell);
-        index = textName.indexOf('.');
-        row = Integer.valueOf(textFromCell.substring(0, index));
-        col = Integer.valueOf(textFromCell.substring(index + 1, textFromCell.length()));
-        textField.setBackground(Color.green);        
     }
     
     private void fillBoardCells(JTextField[][] cellsMatrix, int[][] data) {
@@ -216,11 +213,9 @@ public class MainWindow {
                 }
                 else {
                     matrix[row][col].setText(String.valueOf(data[row][col]));
+                    matrix[row][col].setEditable(false);
                 }
             }
         }
-    }
-    
-    private void getUserInput() {
     }
 }
