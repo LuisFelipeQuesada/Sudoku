@@ -11,7 +11,9 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import Files.ReadXml;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import game.Board;
+import java.util.ArrayList;
 /**
  *
  * @author Luis Felipe Quesada
@@ -21,17 +23,20 @@ public class MainWindow {
     JFrame window = null;
     GridLayout optionsLayout, boardLayout = null;
     BorderLayout mainLayout = null;
-    JPanel windowPanel, panelOptions, boardPanelPrin, boardPanel, boardPanelBack = null;
-    JButton buttonOption, buttonBack = null;
+    JPanel windowPanel, panelOptions, panelOptionsPrin, boardPanelPrin, boardPanel, boardPanelFooter = null;
+    JButton buttonOption, buttonBack, buttonClose = null;
+    ArrayList<JPanel> blocksList = null;
             
     public MainWindow() {
+        blocksList = new ArrayList();
         window = new JFrame("Sudoku");
-        window.setSize(500, 530);
+        window.setSize(530, 530);
         window.setResizable(false);
         window.setLocationRelativeTo(null);
         window.setVisible(true);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
+        boardPanelFooter = new JPanel();
         windowPanel = new JPanel(new CardLayout());
         windowPanel.add("panelOptions", initGUI());
         windowPanel.add("boardPanel", createBoardPanel());
@@ -49,13 +54,16 @@ public class MainWindow {
     }
     
     public JPanel initGUI() {
+        panelOptionsPrin = new JPanel(new BorderLayout());
         panelOptions = new JPanel();
         optionsLayout = new GridLayout(3, 1);
         panelOptions.setLayout(optionsLayout);
         for(int i = 0; i < 3; i++) {
-            panelOptions.add(createOptions(String.valueOf(i)));
+            panelOptions.add(createOptions(String.valueOf(i)), BorderLayout.NORTH);
         }
-        return panelOptions;
+        
+        panelOptionsPrin.add(panelOptions, BorderLayout.CENTER);
+        return panelOptionsPrin;
     }
     
     public JButton createOptions(String num) {
@@ -66,25 +74,31 @@ public class MainWindow {
             public void actionPerformed(ActionEvent e) {
                 JButton src = (JButton)e.getSource();
                 if(Integer.valueOf(src.getName()) == 0) {
+                    blocksList.clear();
                     ReadXml xml = new ReadXml(0);
                     Board board = new Board(xml.createMatrix());
                     JTextField cells[][] = createBoardCells();
                     fillBoardCells(cells, board.getBoard());
-                    addboardCells(boardPanel, cells);
+                    setBlocks(boardPanel);
+                    addBoardCells(blocksList, cells);
                 }
                 else if(Integer.valueOf(src.getName()) == 1) {
+                    blocksList.clear();
                     ReadXml xml = new ReadXml(1);
                     Board board = new Board(xml.createMatrix());
                     JTextField cells[][] = createBoardCells();
                     fillBoardCells(cells, board.getBoard());
-                    addboardCells(boardPanel, cells);
+                    setBlocks(boardPanel);
+                    addBoardCells(blocksList, cells);
                 }
                 else {
+                    blocksList.clear();
                     ReadXml xml = new ReadXml(2);
                     Board board = new Board(xml.createMatrix());
                     JTextField cells[][] = createBoardCells();
                     fillBoardCells(cells, board.getBoard());
-                    addboardCells(boardPanel, cells);
+                    setBlocks(boardPanel);
+                    addBoardCells(blocksList, cells);
                 }
                 CardLayout cardLayout = (CardLayout) windowPanel.getLayout();
                 cardLayout.show(windowPanel, "boardPanel");
@@ -96,8 +110,7 @@ public class MainWindow {
     public JPanel createBoardPanel() {
         boardPanelPrin = new JPanel(new BorderLayout());
         boardPanel = new JPanel();
-        boardPanelBack = new JPanel();
-        boardLayout = new GridLayout(9, 9);
+        boardLayout = new GridLayout(3, 3);
         boardPanel.setLayout(boardLayout);
         
         buttonBack = new JButton("Back");
@@ -109,39 +122,56 @@ public class MainWindow {
                 boardPanel.removeAll();
             }
         });
-        boardPanelBack.add(buttonBack);
+        
+        boardPanelFooter = new JPanel();
+        boardPanelFooter.add(buttonBack);
         
         boardPanelPrin.add(boardPanel, mainLayout.CENTER);
-        boardPanelPrin.add(boardPanelBack, mainLayout.SOUTH);
+        boardPanelPrin.add(boardPanelFooter, mainLayout.SOUTH);
         
         return boardPanelPrin;
     }
     
     // Sett the block in the parent: boardPanel
-    public void setBlocks() {
+    public void setBlocks(JPanel parent) {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
-                boardPanel.add(createBlock());
+                parent.add(createBlock());
             }
         }
     }
     
     public JPanel createBlock() {
         JPanel blockPanel = new JPanel();
-        blockPanel.setSize(150, 150);
-        blockPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         GridLayout blockLayout = new GridLayout(3, 3);
         blockPanel.setLayout(blockLayout);
-        
+        blockPanel.setSize(150, 150);
+        blockPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        blocksList.add(blockPanel);
         return blockPanel;
     }
     
     // Creates the cells and adds them to the parent
-    public void addboardCells(JPanel parent, JTextField[][] cellsMatrix) {
-        JTextField text = null;
-        for(int row = 0; row < cellsMatrix.length; row++) {
-            for(int col = 0; col < cellsMatrix[row].length; col++) {
-                parent.add(cellsMatrix[row][col]);
+    public void addBoardCells(ArrayList<JPanel> parentsList, JTextField[][] cellsMatrix) {
+        int parentIndex = 0;
+        int counter = 0;
+        for(int row = 0; parentIndex < 9; row++) {
+            // Se envia la siguiente fila de la matrix
+            addRow(parentsList, cellsMatrix[row], parentIndex);
+            counter += 1;
+            if(counter >= 3) {
+                parentIndex += 3;
+                counter = 0;
+            }
+        }
+    }
+    
+    public void addRow(ArrayList<JPanel> parentsList, JTextField[] row, int index) {
+        int parentIndex = index;
+        for(int col = 0; col < row.length; col++) {
+            parentsList.get(parentIndex).add(row[col]);
+            if((col == 2) || (col == 5)) {
+                parentIndex += 1;
             }
         }
     }
@@ -152,6 +182,7 @@ public class MainWindow {
         for(int row = 0; row < 9; row++) {
             for(int col = 0; col < 9; col++) {
                 text = new JTextField(1);
+                text.setName(String.valueOf(row) + "." + String.valueOf(col));
                 text.setBorder(BorderFactory.createLineBorder(Color.black));
                 text.setHorizontalAlignment(JTextField.CENTER);
                 Font f = new Font("SansSerif", Font.BOLD, 24);
