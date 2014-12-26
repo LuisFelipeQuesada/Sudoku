@@ -76,27 +76,27 @@ public class MainWindow {
                 if(Integer.valueOf(src.getName()) == 0) {
                     blocksList.clear();
                     ReadXml xml = new ReadXml(0);
-                    Board board = new Board(xml.createMatrix());
+                    Board board = new Board(xml.createMatrix(), 0);
                     JTextField cells[][] = createBoardCells();
-                    fillBoardCells(cells, board.getBoard());
+                    fillBoardCells(cells, board.getUserBoard());
                     setBlocks(boardPanel);
                     addBoardCells(blocksList, cells);
                 }
                 else if(Integer.valueOf(src.getName()) == 1) {
                     blocksList.clear();
                     ReadXml xml = new ReadXml(1);
-                    Board board = new Board(xml.createMatrix());
+                    Board board = new Board(xml.createMatrix(), 1);
                     JTextField cells[][] = createBoardCells();
-                    fillBoardCells(cells, board.getBoard());
+                    fillBoardCells(cells, board.getUserBoard());
                     setBlocks(boardPanel);
                     addBoardCells(blocksList, cells);
                 }
                 else {
                     blocksList.clear();
                     ReadXml xml = new ReadXml(2);
-                    Board board = new Board(xml.createMatrix());
+                    Board board = new Board(xml.createMatrix(), 2);
                     JTextField cells[][] = createBoardCells();
-                    fillBoardCells(cells, board.getBoard());
+                    fillBoardCells(cells, board.getUserBoard());
                     setBlocks(boardPanel);
                     addBoardCells(blocksList, cells);
                 }
@@ -197,7 +197,12 @@ public class MainWindow {
         JTextField matrix[][] = cellsMatrix;
         for(int row = 0; row < data.length; row++) {
             for(int col = 0; col < data[row].length; col++) {
-                matrix[row][col].setText(String.valueOf(data[row][col]));
+                if(data[row][col] == 0) {
+                    matrix[row][col].setText("");
+                }
+                else {
+                    matrix[row][col].setText(String.valueOf(data[row][col]));
+                }
             }
         }
     }    
