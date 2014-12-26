@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import Files.ReadXml;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import game.Board;
 import java.util.ArrayList;
 /**
@@ -26,6 +25,9 @@ public class MainWindow {
     JPanel windowPanel, panelOptions, panelOptionsPrin, boardPanelPrin, boardPanel, boardPanelFooter = null;
     JButton buttonOption, buttonBack, buttonClose = null;
     ArrayList<JPanel> blocksList = null;
+    JTextField text, textField = null;
+    String textFromCell, textName;
+    int row, col, index, data;
             
     public MainWindow() {
         blocksList = new ArrayList();
@@ -178,7 +180,6 @@ public class MainWindow {
     
     private JTextField[][] createBoardCells() {
         JTextField[][] mat = new JTextField[9][9];
-        JTextField text = null;
         for(int row = 0; row < 9; row++) {
             for(int col = 0; col < 9; col++) {
                 text = new JTextField(1);
@@ -187,10 +188,23 @@ public class MainWindow {
                 text.setHorizontalAlignment(JTextField.CENTER);
                 Font f = new Font("SansSerif", Font.BOLD, 24);
                 text.setFont(f);
+                //text.addActionListener(this);
                 mat[row][col] = text;
             }
+            text = new JTextField(1);
         }
         return mat;
+    }
+    
+    public void actionPerformed(ActionEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        textFromCell = textField.getText();
+        textName = textField.getName();
+        data = Integer.valueOf(textFromCell);
+        index = textName.indexOf('.');
+        row = Integer.valueOf(textFromCell.substring(0, index));
+        col = Integer.valueOf(textFromCell.substring(index + 1, textFromCell.length()));
+        textField.setBackground(Color.green);        
     }
     
     private void fillBoardCells(JTextField[][] cellsMatrix, int[][] data) {
@@ -205,5 +219,8 @@ public class MainWindow {
                 }
             }
         }
-    }    
+    }
+    
+    private void getUserInput() {
+    }
 }

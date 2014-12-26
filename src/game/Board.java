@@ -53,6 +53,14 @@ public class Board {
         number = (randomNumber.nextInt(9));
         return number;
     }
+    
+    public boolean validateCell(int row, int col, int data) {
+        boolean res = false;
+        if(matrix[row][col] == data) {
+            res = true;
+        }        
+        return res;
+    }
 }
 
 
