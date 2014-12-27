@@ -21,6 +21,7 @@ public class TextFieldFocusListener implements FocusListener {
     String textFromCell, textName;
     int index, data;
     Board board;
+    public static boolean res = false;
     
     public TextFieldFocusListener(Board b) {
         board = b;
@@ -31,20 +32,25 @@ public class TextFieldFocusListener implements FocusListener {
         textField = ((JTextField) e.getSource());
         color = textField.getBackground();
         textField.setBackground(Color.decode("#FFFF99"));
-        textName = textField.getName();
-        index = textName.indexOf('.');
-        int row = Integer.valueOf(textName.substring(0, index));
-        int col = Integer.valueOf(textName.substring(index + 1, textName.length()));
-        sendUserInput(row, col);
+        
     }
 
     @Override
     public void focusLost(FocusEvent e) {
-        textField.setBackground(color);
+        if(textField.getText().equalsIgnoreCase("")) {
+            textField.setBackground(Color.decode("#FFFFFF"));
+        }
+        else {
+            if(res) {
+                textField.setBackground(Color.decode("#99FFCC")); //00CC66
+            }
+            else {
+                textField.setBackground(Color.decode("#CC6666")); //CC0000
+            }
+        }
     }
     
-    public void sendUserInput(int row, int col) {
-        board.getCell(row, col);
+    public static boolean getValidation() {
+        return res;
     }
-    
 }

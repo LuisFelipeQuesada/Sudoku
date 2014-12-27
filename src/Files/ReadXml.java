@@ -5,7 +5,6 @@
  */
 package Files;
 
-import game.Block;
 import javax.xml.parsers.DocumentBuilder; 
 import javax.xml.parsers.DocumentBuilderFactory;
 

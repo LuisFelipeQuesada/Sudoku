@@ -8,7 +8,6 @@ package UI;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.*;
 
 import Files.ReadXml;
 import game.Board;
@@ -29,6 +28,8 @@ public class MainWindow {
     String textFromCell, textName;
     int row, col, index, data;
     Board board = null;
+    
+    public static int SELECTED_ROW, SELECTED_COLUMN, DATA = 0;
             
     public MainWindow() {
         blocksList = new ArrayList();
@@ -61,16 +62,17 @@ public class MainWindow {
         panelOptions = new JPanel();
         optionsLayout = new GridLayout(3, 1);
         panelOptions.setLayout(optionsLayout);
+        String[] str = {"Easy", "Medium", "Hard"};
         for(int i = 0; i < 3; i++) {
-            panelOptions.add(createOptions(String.valueOf(i)), BorderLayout.NORTH);
+            panelOptions.add(createOptions(String.valueOf(i), str[i]), BorderLayout.NORTH);
         }
         
         panelOptionsPrin.add(panelOptions, BorderLayout.CENTER);
         return panelOptionsPrin;
     }
     
-    public JButton createOptions(String num) {
-        buttonOption = new JButton("Option " + num);
+    public JButton createOptions(String num, String str) {
+        buttonOption = new JButton(str);
         buttonOption.setName(num);
         buttonOption.addActionListener(new ActionListener() {
             @Override
@@ -149,7 +151,7 @@ public class MainWindow {
         GridLayout blockLayout = new GridLayout(3, 3);
         blockPanel.setLayout(blockLayout);
         blockPanel.setSize(150, 150);
-        blockPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#CC0000")));
+        blockPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#6699CC")));
         blocksList.add(blockPanel);
         return blockPanel;
     }
@@ -183,16 +185,16 @@ public class MainWindow {
         JTextField[][] mat = new JTextField[9][9];
         for(int row = 0; row < 9; row++) {
             for(int col = 0; col < 9; col++) {
-                text = new JTextField(1);
+                text = new JTextField();
+                text.setColumns(0);
                 text.setName(String.valueOf(row) + "." + String.valueOf(col));
-                text.setBorder(BorderFactory.createLineBorder(Color.decode("#CC0000")));
+                text.setBorder(BorderFactory.createLineBorder(Color.decode("#6699CC")));
                 text.setHorizontalAlignment(JTextField.CENTER);
                 
                 // Agregar tipo de Font al TextField
                 Font f = new Font("SansSerif", Font.ROMAN_BASELINE, 24);
                 text.setFont(f);
                 
-                // Agregar Listeners al TextField
                 text.addFocusListener(new TextFieldFocusListener(board));
                 text.getDocument().addDocumentListener(new TextFieldDocumentListener(board, text));
                 

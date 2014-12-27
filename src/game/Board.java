@@ -1,5 +1,6 @@
 package game;
 
+import UI.TextFieldFocusListener;
 import java.util.Random;
 
 /**
@@ -8,17 +9,29 @@ import java.util.Random;
  */
 public class Board {
     
-    private int[][] matrix, res = null;
+    private int[][] matrix = null;
+    private int[][] toUser = null;
     private int row, col, data = 0;
+    private boolean validationResult = false;
     
-    public Board(int[][] matrix, int level) {
-        this.matrix = matrix;
-        this.res = matrix;
+    public Board(int[][] m, int level) {
+        this.matrix = m;
+        this.toUser = createToUserMatrix(m);
         setEmptySpaces(level);
     }
     
-    public int[][] getUserBoard() {
+    private int[][] createToUserMatrix(int[][] m) {
+        int[][] res = new int[m.length][m.length];
+        for(int i = 0; i < m.length; i++) {
+            for(int j = 0; j < m[i].length; j++) {
+                res[i][j] = m[i][j];
+            }
+        }
         return res;
+    }
+    
+    public int[][] getUserBoard() {
+        return toUser;
     }
     
     public int[][] getCompleteBoard() {
@@ -30,19 +43,19 @@ public class Board {
             case 0:
                 // 0 - 35
                 for(int counter = 0; counter < 25; counter++) {
-                    res[generateNumber()][generateNumber()] = 0;
+                    toUser[generateNumber()][generateNumber()] = 0;
                 }
                 break;
             case 1:
                 // 36 - 50
                 for(int counter = 0; counter < 40; counter++) {
-                    res[generateNumber()][generateNumber()] = 0;
+                    toUser[generateNumber()][generateNumber()] = 0;
                 }
                 break;
             case 2:
                 // 51 - 63
                 for(int counter = 0; counter < 55; counter++) {
-                    res[generateNumber()][generateNumber()] = 0;
+                    toUser[generateNumber()][generateNumber()] = 0;
                 }
                 break;
         }
@@ -55,21 +68,30 @@ public class Board {
         return number;
     }
     
-    public void getCell(int r, int c) {
-        row = r;
-        col = c;
+    public void receiveCell(int r, int c) {
+        this.row = r;
+        this.col = c;
+        System.out.println("En Matrix : " + matrix[this.row][this.col]);
+        System.out.println("En toUser : " + toUser[this.row][this.col]);
     }
     
-    public void getInput(int d) {
-        data = d;
+    public void validateInput(int row, int col, int d) {
+        System.out.println("Dato ingresado: " + d);
+        int inMat = matrix[row][col];
+        System.out.println("inMat: " + inMat);
+        if(matrix[row][col] == d) {
+            validationResult = true;
+            TextFieldFocusListener.res = true;
+        }
+        System.out.println(validationResult);
     }
     
-    public boolean validateCell() {
-        boolean res = false;
-        if(matrix[row][col] == data) {
-            res = true;
-        }        
-        return res;
+    public boolean getValidationResult() {
+        return validationResult;
+    }
+    
+    public void resetValidationResult() {
+        validationResult = false;
     }
 }
 

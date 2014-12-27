@@ -7,8 +7,7 @@ package UI;
 
 import game.Board;
 import java.awt.Color;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.text.*;
@@ -21,7 +20,7 @@ public class TextFieldDocumentListener implements DocumentListener {
     
     JTextField textField;
     String textFromCell, textName;
-    int insertedNumber;
+    int insertedNumber, index, data, row, col;
     Document doc;
     Board board;
     
@@ -34,7 +33,14 @@ public class TextFieldDocumentListener implements DocumentListener {
     public void insertUpdate(DocumentEvent e) {
         doc = e.getDocument();
         try {
-            sendUserInput(Integer.valueOf(doc.getText(0, doc.getLength())));            
+            data = Integer.valueOf(doc.getText(0, doc.getLength()));
+            textName = textField.getName();
+            index = textName.indexOf('.');
+            row = Integer.valueOf(textName.substring(0, index));
+            col = Integer.valueOf(textName.substring(index + 1, textName.length()));
+            board.validateInput(row, col, data);
+            TextFieldFocusListener.res = board.getValidationResult();
+            board.resetValidationResult();
         } catch (BadLocationException ex) {
             Logger.getLogger(TextFieldDocumentListener.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -42,23 +48,22 @@ public class TextFieldDocumentListener implements DocumentListener {
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
         doc = e.getDocument();
         try {
-            sendUserInput(Integer.valueOf(doc.getText(0, doc.getLength())));
+            data = Integer.valueOf(doc.getText(0, doc.getLength()));
+            textName = textField.getName();
+            index = textName.indexOf('.');
+            row = Integer.valueOf(textName.substring(0, index));
+            col = Integer.valueOf(textName.substring(index + 1, textName.length()));
+            board.validateInput(row, col, data);
+            TextFieldFocusListener.res = board.getValidationResult();
+            board.resetValidationResult();
         } catch (BadLocationException ex) {
             Logger.getLogger(TextFieldDocumentListener.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    private void sendUserInput(int number) {
-        board.getInput(number);
-        if(board.validateCell()) {
-            textField.setEditable(false);
         }
     }
 }
