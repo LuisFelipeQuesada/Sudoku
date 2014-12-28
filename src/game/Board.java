@@ -87,22 +87,19 @@ public class Board {
     }
     
     public boolean isWon() {
-        boolean isWon = false;
+        boolean isWon = true;
         for(int i = 0; i < matrix.length; i++) {
             for(int j = 0; j < matrix.length; j++) {
                 if(matrix[i][j] == toUser[i][j]) {
-                    isWon = true;
+                    ;
                 }
                 else {
                     isWon = false;
-                    is_won = isWon;
                     j += matrix.length;
                     i += matrix.length;
                 }
             }
         }
-            System.out.println("isWon: " + isWon);
-            System.out.println("is_won: " + is_won);
         return isWon;
     }
     

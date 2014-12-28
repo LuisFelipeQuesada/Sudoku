@@ -49,13 +49,18 @@ public class TextFieldKeyListener implements KeyListener {
             col = Integer.valueOf(originName.substring(index + 1, originName.length()));
 
             if(board.validateInput(row, col, numberEntered)) {
-                origin.setForeground(Color.decode("#009966"));  // Puts color in green
+                // If you want know if the answer is correct, the change the color by this one: #009966
+                origin.setForeground(Color.decode("#000000"));
+                if(board.isWon()) {
+                    JOptionPane.showMessageDialog(null, "Felicidades, has ganado", "Felicidades!!!", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Algo no esta bien, revisa de nuevo", "Felicidades!!!", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
             else {
-                origin.setForeground(Color.decode("#CC0000"));
-                if(board.getIsWon()) {
-                    JOptionPane.showInternalMessageDialog((Component) MainWindow.window, "Felicidades, has ganado", "Felicidades!!!", JOptionPane.INFORMATION_MESSAGE);
-                }
+                // If the result is nt valid, the number is put in red
+                //origin.setForeground(Color.decode("#CC0000"));
             }
         } catch(NumberFormatException exception) {}
     }
