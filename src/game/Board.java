@@ -13,6 +13,7 @@ public class Board {
     private int[][] toUser = null;
     private int row, col, data = 0;
     private boolean validationResult = false;
+    private boolean isWon = false;
     
     public Board(int[][] m, int level) {
         this.matrix = m;
@@ -71,19 +72,40 @@ public class Board {
     public void receiveCell(int r, int c) {
         this.row = r;
         this.col = c;
-        System.out.println("En Matrix : " + matrix[this.row][this.col]);
-        System.out.println("En toUser : " + toUser[this.row][this.col]);
     }
     
-    public void validateInput(int row, int col, int d) {
-        System.out.println("Dato ingresado: " + d);
-        int inMat = matrix[row][col];
-        System.out.println("inMat: " + inMat);
+    public boolean validateInput(int row, int col, int d) {
+        boolean isValid = false;
+        System.out.println("d = " + d);
         if(matrix[row][col] == d) {
             validationResult = true;
             TextFieldFocusListener.res = true;
+            toUser[row][col] = d;
+            isValid = true;
+            System.out.println("Valid");
         }
-        System.out.println(validationResult);
+        System.out.println(isValid);
+        return isValid;
+    }
+    
+    public boolean isWon() {
+        for(int i = 0; i < matrix.length; i++) {
+            for(int j = 0; j < matrix.length; j++) {
+                if(matrix[i][j] == toUser[i][j]) {
+                    isWon = true;
+                    j += matrix.length;
+                }
+                else {
+                    isWon = false;
+                }
+            }
+            i += matrix.length;
+        }
+        return isWon;
+    }
+    
+    public boolean getIsWon() {
+        return isWon;
     }
     
     public boolean getValidationResult() {

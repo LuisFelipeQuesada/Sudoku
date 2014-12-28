@@ -41,6 +41,9 @@ public class TextFieldDocumentListener implements DocumentListener {
             board.validateInput(row, col, data);
             TextFieldFocusListener.res = board.getValidationResult();
             board.resetValidationResult();
+            if(board.getIsWon()) {
+                System.out.println("Game won");
+            }
         } catch (BadLocationException ex) {
             Logger.getLogger(TextFieldDocumentListener.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -62,6 +65,9 @@ public class TextFieldDocumentListener implements DocumentListener {
             board.validateInput(row, col, data);
             TextFieldFocusListener.res = board.getValidationResult();
             board.resetValidationResult();
+            if(board.isWon()) {
+                System.out.println("Game won");
+            }
         } catch (BadLocationException ex) {
             Logger.getLogger(TextFieldDocumentListener.class.getName()).log(Level.SEVERE, null, ex);
         }

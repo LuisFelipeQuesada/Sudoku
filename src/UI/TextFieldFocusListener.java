@@ -37,17 +37,26 @@ public class TextFieldFocusListener implements FocusListener {
 
     @Override
     public void focusLost(FocusEvent e) {
-        if(textField.getText().equalsIgnoreCase("")) {
+        if(textField.getText().equals("")) {
+            textField.setBackground(Color.decode("#FFFFFF"));
+        }
+        else {
+            textField.setBackground(Color.decode("#F0F0F0"));
+        }
+        /*if(textField.getText().equalsIgnoreCase("")) {
             textField.setBackground(Color.decode("#FFFFFF"));
         }
         else {
             if(res) {
                 textField.setBackground(Color.decode("#99FFCC")); //00CC66
             }
+            else if(!textField.isEditable()) {
+                textField.setBackground(color);
+            }
             else {
                 textField.setBackground(Color.decode("#CC6666")); //CC0000
             }
-        }
+        }*/
     }
     
     public static boolean getValidation() {

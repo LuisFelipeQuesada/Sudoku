@@ -24,7 +24,7 @@ public class MainWindow {
     JPanel windowPanel, panelOptions, panelOptionsPrin, boardPanelPrin, boardPanel, boardPanelFooter = null;
     JButton buttonOption, buttonBack, buttonClose = null;
     ArrayList<JPanel> blocksList = null;
-    JTextField text, textField = null;
+    JTextField textField = null;
     String textFromCell, textName;
     int row, col, index, data;
     Board board = null;
@@ -183,20 +183,22 @@ public class MainWindow {
     
     private JTextField[][] createBoardCells() {
         JTextField[][] mat = new JTextField[9][9];
+        JTextField text;
         for(int row = 0; row < 9; row++) {
             for(int col = 0; col < 9; col++) {
-                text = new JTextField();
-                text.setColumns(0);
+                text = new JTextField(1);
                 text.setName(String.valueOf(row) + "." + String.valueOf(col));
                 text.setBorder(BorderFactory.createLineBorder(Color.decode("#6699CC")));
                 text.setHorizontalAlignment(JTextField.CENTER);
+                text.setFocusTraversalKeysEnabled(false);
                 
                 // Agregar tipo de Font al TextField
                 Font f = new Font("SansSerif", Font.ROMAN_BASELINE, 24);
                 text.setFont(f);
                 
+                text.addKeyListener(new TextFieldKeyListener(board));
                 text.addFocusListener(new TextFieldFocusListener(board));
-                text.getDocument().addDocumentListener(new TextFieldDocumentListener(board, text));
+                //text.getDocument().addDocumentListener(new TextFieldDocumentListener(board, text));
                 
                 // Agregar textfield a la matriz
                 mat[row][col] = text;
@@ -212,10 +214,13 @@ public class MainWindow {
             for(int col = 0; col < data[row].length; col++) {
                 if(data[row][col] == 0) {
                     matrix[row][col].setText("");
+                    matrix[row][col].setFocusable(true);
                 }
                 else {
                     matrix[row][col].setText(String.valueOf(data[row][col]));
                     matrix[row][col].setEditable(false);
+                    matrix[row][col].setBackground(Color.decode("#F0F0F0"));
+                    matrix[row][col].setFocusable(false);
                 }
             }
         }
