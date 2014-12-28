@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class MainWindow {
     
-    JFrame window = null;
+    public static JFrame window = null;
     GridLayout optionsLayout, boardLayout = null;
     BorderLayout mainLayout = null;
     JPanel windowPanel, panelOptions, panelOptionsPrin, boardPanelPrin, boardPanel, boardPanelFooter = null;
@@ -215,6 +215,8 @@ public class MainWindow {
                 if(data[row][col] == 0) {
                     matrix[row][col].setText("");
                     matrix[row][col].setFocusable(true);
+                    Font f = new Font("SansSerif", Font.BOLD, 24);
+                    matrix[row][col].setFont(f);
                 }
                 else {
                     matrix[row][col].setText(String.valueOf(data[row][col]));

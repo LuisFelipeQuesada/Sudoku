@@ -12,7 +12,7 @@ import javax.swing.*;
 
 /**
  *
- * @author felipe
+ * @author Luis Felipe Quesada
  */
 public class TextFieldFocusListener implements FocusListener {
     
@@ -38,28 +38,16 @@ public class TextFieldFocusListener implements FocusListener {
     @Override
     public void focusLost(FocusEvent e) {
         if(textField.getText().equals("")) {
+            // Si el usuario no escribe nada, la celda se mantiene de color blanco
             textField.setBackground(Color.decode("#FFFFFF"));
         }
         else {
-            textField.setBackground(Color.decode("#F0F0F0"));
+            // Si el número ingresado por el ususario el válido, el color de la celda y el número
+            // cambian a gris y negro, respectivamente
+            if(board.getIsValid()) {
+                textField.setBackground(Color.decode("#F0F0F0"));
+                textField.setForeground(Color.decode("#000000"));
+            }                
         }
-        /*if(textField.getText().equalsIgnoreCase("")) {
-            textField.setBackground(Color.decode("#FFFFFF"));
-        }
-        else {
-            if(res) {
-                textField.setBackground(Color.decode("#99FFCC")); //00CC66
-            }
-            else if(!textField.isEditable()) {
-                textField.setBackground(color);
-            }
-            else {
-                textField.setBackground(Color.decode("#CC6666")); //CC0000
-            }
-        }*/
-    }
-    
-    public static boolean getValidation() {
-        return res;
     }
 }

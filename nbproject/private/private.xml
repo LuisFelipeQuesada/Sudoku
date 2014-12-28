@@ -5,7 +5,8 @@
         <group>
             <file>file:/home/felipe/NetBeansProjects/game/src/UI/MainWindow.java</file>
             <file>file:/home/felipe/NetBeansProjects/game/src/UI/TextFieldFocusListener.java</file>
-            <file>file:/home/felipe/NetBeansProjects/game/src/UI/TextFieldDocumentListener.java</file>
+            <file>file:/home/felipe/NetBeansProjects/game/src/game/Game.java</file>
+            <file>file:/home/felipe/NetBeansProjects/game/src/UI/TextFieldKeyListener.java</file>
             <file>file:/home/felipe/NetBeansProjects/game/src/game/Board.java</file>
         </group>
     </open-files>

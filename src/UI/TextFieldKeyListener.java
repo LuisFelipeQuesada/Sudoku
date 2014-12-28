@@ -6,14 +6,13 @@
 package UI;
 
 import game.Board;
-import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 /**
  *
- * @author felipe
+ * @author Luis Felipe Quesada
  */
 public class TextFieldKeyListener implements KeyListener {
     
@@ -32,16 +31,13 @@ public class TextFieldKeyListener implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        //getUserInput(e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        //getUserInput(e);
     }
     
     private void getUserInput(KeyEvent e) {
-        //if(Integer.valueOf(String.valueOf(e.getKeyChar()))) {
         try {
             numberEntered = Integer.valueOf(String.valueOf(e.getKeyChar()));
             origin = (JTextField) e.getComponent();
@@ -53,10 +49,13 @@ public class TextFieldKeyListener implements KeyListener {
             col = Integer.valueOf(originName.substring(index + 1, originName.length()));
 
             if(board.validateInput(row, col, numberEntered)) {
-                    origin.setForeground(Color.decode("#000000"));
+                origin.setForeground(Color.decode("#009966"));  // Puts color in green
             }
             else {
                 origin.setForeground(Color.decode("#CC0000"));
+                if(board.getIsWon()) {
+                    JOptionPane.showInternalMessageDialog((Component) MainWindow.window, "Felicidades, has ganado", "Felicidades!!!", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         } catch(NumberFormatException exception) {}
     }
