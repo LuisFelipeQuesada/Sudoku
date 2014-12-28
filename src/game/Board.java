@@ -82,9 +82,7 @@ public class Board {
             TextFieldFocusListener.res = true;
             toUser[row][col] = d;
             isValid = true;
-            System.out.println("Valid");
         }
-        System.out.println(isValid);
         return isValid;
     }
     
