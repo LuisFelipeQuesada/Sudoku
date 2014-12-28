@@ -42,7 +42,7 @@ public class TextFieldKeyListener implements KeyListener {
             numberEntered = Integer.valueOf(String.valueOf(e.getKeyChar()));
             origin = (JTextField) e.getComponent();
 
-            // Based on the name of the origin the row and colum can be obtained
+            // Basado en el nombre del textfield se obtiene el nombre
             String originName = origin.getName();
             index = originName.indexOf('.');
             row = Integer.valueOf(originName.substring(0, index));
