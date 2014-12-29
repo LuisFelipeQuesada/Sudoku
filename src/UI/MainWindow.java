@@ -12,6 +12,7 @@ import javax.swing.*;
 import Files.ReadXml;
 import game.Board;
 import java.util.ArrayList;
+import javax.swing.border.EtchedBorder;
 /**
  *
  * @author Luis Felipe Quesada
@@ -19,8 +20,7 @@ import java.util.ArrayList;
 public class MainWindow {
     
     JFrame window = null;
-    GridLayout optionsLayout, boardLayout = null;
-    JPanel windowPanel, panelOptions, panelOptionsPrin, boardPanelPrin, boardPanel, boardPanelFooter = null;
+    JPanel windowPanel, panelOptions, boardPanel, boardPanelFooter = null;
     JButton buttonOption, buttonBack, buttonClose = null;
     
     // Blocks for 3x3 matrix inside the board
@@ -37,11 +37,12 @@ public class MainWindow {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         boardPanelFooter = new JPanel();
+        boardPanelFooter.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
         createBackCloseButtons();
         
         JPanel panelPrin = new JPanel(new BorderLayout());
         windowPanel = new JPanel(new CardLayout());
-        windowPanel.add("panelOptions", initGUI());
+        windowPanel.add("panelOptions", createPanelForOptions());
         windowPanel.add("boardPanel", createBoardPanel());
         
         panelPrin.add(windowPanel, BorderLayout.CENTER);
@@ -57,7 +58,8 @@ public class MainWindow {
         buttonClose.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Close window
+                window.dispose();
+                System.exit(0);
             }
         });
         
@@ -78,31 +80,43 @@ public class MainWindow {
         boardPanelFooter.add(buttonBack);
     }
     
-    private JPanel initGUI() {
+    private JPanel createPanelForOptions() {
         panelOptions = new JPanel();
-        optionsLayout = new GridLayout(3, 1);
-        panelOptions.setLayout(optionsLayout);
-        String[] str = {"Easy", "Medium", "Hard"};
-        for(int i = 0; i < 3; i++) {
-            panelOptions.add(createOptions(String.valueOf(i), str[i]));
-        }
+        GridBagLayout gridbaglayout = new GridBagLayout();
+        GridBagConstraints constraints = new GridBagConstraints();
+        panelOptions.setLayout(gridbaglayout);
+        panelOptions.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+        
+        addItemToGrid(panelOptions, new JLabel("Choose one of the following levels of difficulty"), constraints, 1, 1, 2, 1, 150, 20, new Insets(50, 25, 0, 1), GridBagConstraints.NONE, GridBagConstraints.PAGE_START);
+        addItemToGrid(panelOptions, createOptions(String.valueOf(0), "Easy"), constraints, 1, 1, 1, 1, 60, 50, new Insets(110, 1, 1, 1), constraints.NONE, GridBagConstraints.PAGE_START);
+        addItemToGrid(panelOptions, createOptions(String.valueOf(1), "Medium"), constraints, 1, 1, 1, 1, 40, 50, new Insets(20, 1, 1, 1), constraints.NONE, GridBagConstraints.CENTER);
+        addItemToGrid(panelOptions, createOptions(String.valueOf(2), "Hard"), constraints, 1, 1, 1, 1, 60, 50, new Insets(0, 1, 90, 1), constraints.NONE, GridBagConstraints.PAGE_END);
+        
         return panelOptions;
     }
     
+    private void addItemToGrid(JPanel parent, JComponent component, GridBagConstraints constraints, int x, int y, int width, int height, int ipadX, int ipadY, Insets insets, int fill, int align) {
+        constraints.gridx = x;
+        constraints.gridy = y;
+        constraints.gridwidth = width;
+        constraints.gridheight = height;
+        constraints.ipadx = ipadX;
+        constraints.ipady = ipadY;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        constraints.fill = fill;
+        constraints.insets = insets;
+        constraints.anchor = align;
+        parent.add(component, constraints);
+    }
+    
     private JPanel createBoardPanel() {
-        //boardPanelPrin = new JPanel(new BorderLayout());
-        boardPanel = new JPanel();
-        boardLayout = new GridLayout(3, 3);
-        
-        boardPanel.setLayout(boardLayout);
-        //boardPanelPrin.add(boardPanel, BorderLayout.CENTER);
-        //boardPanelPrin.add(boardPanelFooter, BorderLayout.SOUTH);
-        
+        boardPanel = new JPanel(new GridLayout(3, 3));     
         return boardPanel;
     }
     
-    private JButton createOptions(String num, String str) {
-        buttonOption = new JButton(str);
+    private JButton createOptions(String num, String name) {
+        buttonOption = new JButton(name);
         buttonOption.setName(num);
         
         // Listener and actions definitions for each button option
@@ -154,7 +168,7 @@ public class MainWindow {
             for(int col = 0; col < 9; col++) {
                 text = new JTextField(1);
                 text.setName(String.valueOf(row) + "." + String.valueOf(col));
-                text.setBorder(BorderFactory.createLineBorder(Color.decode("#6699CC")));
+                text.setBorder(BorderFactory.createLineBorder(Color.decode("#6699CC"), 1));
                 text.setHorizontalAlignment(JTextField.CENTER);
                 text.setFocusTraversalKeysEnabled(false);
                 
@@ -209,7 +223,7 @@ public class MainWindow {
         GridLayout blockLayout = new GridLayout(3, 3);
         blockPanel.setLayout(blockLayout);
         blockPanel.setSize(150, 150);
-        blockPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#6699CC")));
+        blockPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#6699CC"), 2));
         blocksList.add(blockPanel);
         return blockPanel;
     }
