@@ -164,7 +164,7 @@ public class MainWindow {
                 Font f = new Font("SansSerif", Font.ROMAN_BASELINE, 24);
                 text.setFont(f);
                 
-                text.addKeyListener(new TextFieldKeyListener(board));
+                text.addKeyListener(new TextFieldKeyListener(board, this));
                 text.addFocusListener(new TextFieldFocusListener(board));
                 
                 // Agregar textfield a la matriz
@@ -242,13 +242,7 @@ public class MainWindow {
         }
     }
     
-    public class static
-                parentIndex += 1;
-            }
-        }
-    }
-    
-    public class WinWindow {
+    class WinWindow {
         
         public WinWindow() {
             JFrame frame = new JFrame("Felicidades");
@@ -284,7 +278,7 @@ public class MainWindow {
         }
     }
     
-    class ButtonCloseBackListener implements ActionListener {
+    public class ButtonCloseBackListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {

@@ -5,7 +5,7 @@
  */
 package UI;
 
-import UI.MainWindow.*;
+import UI.MainWindow.WinWindow;
 import game.Board;
 import java.awt.*;
 import java.awt.event.*;
@@ -20,10 +20,12 @@ public class TextFieldKeyListener implements KeyListener {
     Board board;
     int row, col, index, numberEntered;
     JTextField origin;
+    MainWindow main;
     Object[] options = {"Jugar de nuevo", "No"};
     
-    public TextFieldKeyListener(Board b) {
+    public TextFieldKeyListener(Board b, MainWindow win) {
         board = b;
+        main = win;
     }
     
     @Override
@@ -54,7 +56,7 @@ public class TextFieldKeyListener implements KeyListener {
                 // If you want know if the answer is correct, the change the color by this one: #009966
                 origin.setForeground(Color.decode("#000000"));
                 if(board.isWon()) {
-                    //MainWindow.WinWindow win = new MainWindow.WinWindow();
+                    WinWindow win = main.new WinWindow();
                     /*JOptionPane.showOptionDialog(
                             null,
                             "Felicidades, has ganado. ¿Deseas seguir jugando?",
