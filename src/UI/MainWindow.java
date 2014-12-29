@@ -37,8 +37,9 @@ public class MainWindow {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         boardPanelFooter = new JPanel();
+        boardPanelFooter.setLayout(new FlowLayout(FlowLayout.RIGHT));
         boardPanelFooter.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
-        createBackCloseButtons();
+        createCloseBackButtons();
         
         JPanel panelPrin = new JPanel(new BorderLayout());
         windowPanel = new JPanel(new CardLayout());
@@ -52,34 +53,21 @@ public class MainWindow {
         window.add(panelPrin, BorderLayout.CENTER);
     }
     
-    private void createBackCloseButtons() {
-        buttonClose = new JButton("Close");
-        buttonClose.setVisible(true);
-        buttonClose.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.dispose();
-                System.exit(0);
-            }
-        });
+    private void createCloseBackButtons() {
+        buttonClose = new JButton("SAlir");
+        buttonClose.addActionListener(new ButtonCloseBackListener());
+        buttonClose.setActionCommand("close");
         
-        buttonBack = new JButton("Back");
-        buttonBack.setVisible(false);
-        buttonBack.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CardLayout cardLayout = (CardLayout) windowPanel.getLayout();
-                cardLayout.show(windowPanel, "panelOptions");
-                boardPanel.removeAll();
-                buttonBack.setVisible(false);
-                buttonClose.setVisible(true);
-            }
-        });
+        buttonBack = new JButton("Atrás");
+        buttonBack.setEnabled(false);
+        buttonBack.addActionListener(new ButtonCloseBackListener());
+        buttonBack.setActionCommand("back");
         
         boardPanelFooter.add(buttonClose);
         boardPanelFooter.add(buttonBack);
     }
     
+    // Sets the panel that contains the difficulty options
     private JPanel createPanelForOptions() {
         panelOptions = new JPanel();
         GridBagLayout gridbaglayout = new GridBagLayout();
@@ -88,13 +76,14 @@ public class MainWindow {
         panelOptions.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
         
         addItemToGrid(panelOptions, new JLabel("Choose one of the following levels of difficulty"), constraints, 1, 1, 2, 1, 150, 20, new Insets(50, 25, 0, 1), GridBagConstraints.NONE, GridBagConstraints.PAGE_START);
-        addItemToGrid(panelOptions, createOptions(String.valueOf(0), "Easy"), constraints, 1, 1, 1, 1, 60, 50, new Insets(110, 1, 1, 1), constraints.NONE, GridBagConstraints.PAGE_START);
-        addItemToGrid(panelOptions, createOptions(String.valueOf(1), "Medium"), constraints, 1, 1, 1, 1, 40, 50, new Insets(20, 1, 1, 1), constraints.NONE, GridBagConstraints.CENTER);
-        addItemToGrid(panelOptions, createOptions(String.valueOf(2), "Hard"), constraints, 1, 1, 1, 1, 60, 50, new Insets(0, 1, 90, 1), constraints.NONE, GridBagConstraints.PAGE_END);
+        addItemToGrid(panelOptions, createOptions(String.valueOf(0), "Easy"), constraints, 1, 1, 1, 1, 70, 50, new Insets(110, 1, 1, 1), constraints.NONE, GridBagConstraints.PAGE_START);
+        addItemToGrid(panelOptions, createOptions(String.valueOf(1), "Medium"), constraints, 1, 1, 1, 1, 50, 50, new Insets(20, 1, 1, 1), constraints.NONE, GridBagConstraints.CENTER);
+        addItemToGrid(panelOptions, createOptions(String.valueOf(2), "Hard"), constraints, 1, 1, 1, 1, 72, 50, new Insets(0, 1, 90, 1), constraints.NONE, GridBagConstraints.PAGE_END);
         
         return panelOptions;
     }
     
+    // Adds itmes to the gridbag
     private void addItemToGrid(JPanel parent, JComponent component, GridBagConstraints constraints, int x, int y, int width, int height, int ipadX, int ipadY, Insets insets, int fill, int align) {
         constraints.gridx = x;
         constraints.gridy = y;
@@ -150,8 +139,7 @@ public class MainWindow {
                 setBlocks(boardPanel);
                 addBoardCells(blocksList, cells);
                 
-                buttonBack.setVisible(true);
-                buttonClose.setVisible(false);
+                buttonBack.setEnabled(true);
                 
                 CardLayout cardLayout = (CardLayout) windowPanel.getLayout();
                 cardLayout.show(windowPanel, "boardPanel");
@@ -250,6 +238,66 @@ public class MainWindow {
             parentsList.get(parentIndex).add(row[col]);
             if((col == 2) || (col == 5)) {
                 parentIndex += 1;
+            }
+        }
+    }
+    
+    public class static
+                parentIndex += 1;
+            }
+        }
+    }
+    
+    public class WinWindow {
+        
+        public WinWindow() {
+            JFrame frame = new JFrame("Felicidades");
+            frame.setSize(200, 100);
+            frame.setResizable(false);
+            frame.setVisible(true);
+            initGUI();
+            frame.pack();
+        }
+        
+        private void initGUI() {
+            JPanel panelPrin = new JPanel(new GridLayout(2, 1));
+            
+            JPanel panelMsj = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            JLabel msj = new JLabel("Felicidades, has ganado. ¿Deseas seguir jugando?");
+            panelMsj.add(msj);
+            
+            JPanel panelButtons = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            
+            JButton playAgain = new JButton("Jugar de nuevo");
+            playAgain.addActionListener(new ButtonCloseBackListener());
+            playAgain.setActionCommand("close");
+            
+            JButton exit = new JButton("Salir");
+            exit.addActionListener(new ButtonCloseBackListener());
+            exit.setActionCommand("close");
+            
+            panelButtons.add(playAgain);
+            panelButtons.add(exit);
+            
+            panelPrin.add(panelMsj);
+            panelPrin.add(panelButtons);
+        }
+    }
+    
+    class ButtonCloseBackListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+            if("close".equals(e.getActionCommand())) {
+                window.dispose();
+                System.exit(0);
+            }
+            else {
+                CardLayout cardLayout = (CardLayout) windowPanel.getLayout();
+                cardLayout.show(windowPanel, "panelOptions");
+                boardPanel.removeAll();
+                buttonBack.setEnabled(false);
             }
         }
     }

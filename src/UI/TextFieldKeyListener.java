@@ -5,6 +5,7 @@
  */
 package UI;
 
+import UI.MainWindow.*;
 import game.Board;
 import java.awt.*;
 import java.awt.event.*;
@@ -19,6 +20,7 @@ public class TextFieldKeyListener implements KeyListener {
     Board board;
     int row, col, index, numberEntered;
     JTextField origin;
+    Object[] options = {"Jugar de nuevo", "No"};
     
     public TextFieldKeyListener(Board b) {
         board = b;
@@ -52,14 +54,21 @@ public class TextFieldKeyListener implements KeyListener {
                 // If you want know if the answer is correct, the change the color by this one: #009966
                 origin.setForeground(Color.decode("#000000"));
                 if(board.isWon()) {
-                    JOptionPane.showMessageDialog(null, "Felicidades, has ganado", "Felicidades!!!", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "Algo no esta bien, revisa de nuevo", "Felicidades!!!", JOptionPane.INFORMATION_MESSAGE);
+                    //MainWindow.WinWindow win = new MainWindow.WinWindow();
+                    /*JOptionPane.showOptionDialog(
+                            null,
+                            "Felicidades, has ganado. ¿Deseas seguir jugando?",
+                            "Felicidades!!!",
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            options,
+                            options[0]
+                    );*/
                 }
             }
             else {
-                // If the result is nt valid, the number is put in red
+                // If the result is not valid, the number is put in red
                 //origin.setForeground(Color.decode("#CC0000"));
             }
         } catch(NumberFormatException exception) {}

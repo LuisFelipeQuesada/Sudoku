@@ -11,11 +11,12 @@ public class Board {
     
     private int[][] matrix = null;
     private int[][] toUser = null;
-    private int row, col, data = 0;
+    private int row, col, data, emptySpaces = 0;
     private boolean validationResult = false;
-    public boolean is_valid, is_won = false;
+    private boolean is_valid, is_won = false;
     
     public Board(int[][] m, int level) {
+        emptySpaces = 0;
         this.matrix = m;
         this.toUser = createToUserMatrix(m);
         setEmptySpaces(level);
@@ -45,18 +46,21 @@ public class Board {
                 // 0 - 35
                 for(int counter = 0; counter < 25; counter++) {
                     toUser[generateNumber()][generateNumber()] = 0;
+                    emptySpaces += 1;
                 }
                 break;
             case 1:
                 // 36 - 50
                 for(int counter = 0; counter < 40; counter++) {
                     toUser[generateNumber()][generateNumber()] = 0;
+                    emptySpaces += 1;
                 }
                 break;
             case 2:
                 // 51 - 63
                 for(int counter = 0; counter < 55; counter++) {
                     toUser[generateNumber()][generateNumber()] = 0;
+                    emptySpaces += 1;
                 }
                 break;
         }
@@ -70,8 +74,8 @@ public class Board {
     }
     
     public void receiveCell(int r, int c) {
-        this.row = r;
-        this.col = c;
+        row = r;
+        col = c;
     }
     
     public boolean validateInput(int row, int col, int d) {
@@ -101,6 +105,22 @@ public class Board {
             }
         }
         return isWon;
+    }
+    
+    public boolean noEmptySpaces() {
+        return (emptySpaces == 0);
+    }
+    
+    private int countEmptySpaces() {
+        int spaces = 0;
+        for(int i = 0; i < toUser.length; i++) {
+            for(int j = 0; j < toUser[i].length; j++) {
+                if(toUser[i][j] == 0) {
+                    spaces += 1;
+                }
+            }
+        }
+        return spaces;
     }
     
     public boolean getIsValid() {

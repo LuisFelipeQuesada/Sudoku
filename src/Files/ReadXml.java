@@ -10,6 +10,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 
 import java.io.File;
+import java.util.Random;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -33,22 +34,28 @@ public class ReadXml {
         this.matrix = new int[9][9];
         this.level = level;
         
+        int randomNumber = generateNumber();
+        
         String fileSeparator = System.getProperty("file.separator");
+        String sol = "sol_";
+        String extension = ".xml";
+        String file = sol + String.valueOf(randomNumber) + extension;
+        
         String fileName;
         
         try {
             switch(level) {
                 case 0:
-                    fileName = "src" + fileSeparator + "Files" + fileSeparator + "files" + fileSeparator + "easy" + fileSeparator + "sol_1.xml";
+                    fileName = "src" + fileSeparator + "Files" + fileSeparator + "files" + fileSeparator + "easy" + fileSeparator + file;
                     break;
                 case 1:
-                    fileName = "src" + fileSeparator + "Files" + fileSeparator + "files" + fileSeparator + "medium" + fileSeparator + "sol_1.xml";
+                    fileName = "src" + fileSeparator + "Files" + fileSeparator + "files" + fileSeparator + "medium" + fileSeparator + file;
                     break;
                 case 2:
-                    fileName = "src" + fileSeparator + "Files" + fileSeparator + "files" + fileSeparator + "hard" + fileSeparator + "sol_1.xml";
+                    fileName = "src" + fileSeparator + "Files" + fileSeparator + "files" + fileSeparator + "hard" + fileSeparator + file;
                     break;
                 default:
-                    fileName = "src" + fileSeparator + "Files" + fileSeparator + "files" + fileSeparator + "easy" + fileSeparator + "sol_1.xml";
+                    fileName = "src" + fileSeparator + "Files" + fileSeparator + "files" + fileSeparator + "easy" + fileSeparator + file;
                     break;
             }
             
@@ -79,5 +86,12 @@ public class ReadXml {
             }
 	}
         return matrix;
+    }
+    
+    private int generateNumber() {
+        int number = 0;
+        Random randomNumber = new Random();
+        number = (randomNumber.nextInt(10)) + 1;
+        return number;
     }
 }
