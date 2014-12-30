@@ -31,6 +31,7 @@ public class TextFieldKeyListener implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
         getUserInput(e);
+        //countUserInput(e);
     }
 
     @Override
@@ -70,8 +71,12 @@ public class TextFieldKeyListener implements KeyListener {
         return true;
     }
     
-    private boolean countUserInput() {
+    /*private boolean countUserInput(KeyEvent e) {
         boolean res = false;
+        String userInput = (((JTextField) e.getComponent()).getText());
+        if(userInput.length() > 1) {
+            (((JTextField) e.getComponent()).
+        }
         return res;
-    }
+    }*/
 }
