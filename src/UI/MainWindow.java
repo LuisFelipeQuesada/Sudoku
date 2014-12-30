@@ -54,7 +54,7 @@ public class MainWindow {
     }
     
     private void createCloseBackButtons() {
-        buttonClose = new JButton("SAlir");
+        buttonClose = new JButton("Salir");
         buttonClose.addActionListener(new ButtonCloseBackListener());
         buttonClose.setActionCommand("close");
         
@@ -242,32 +242,43 @@ public class MainWindow {
         }
     }
     
-    class WinWindow {
+    public class WinningWindow extends JFrame {
         
-        public WinWindow() {
-            JFrame frame = new JFrame("Felicidades");
-            frame.setSize(200, 100);
+        public JFrame frame;
+        
+        public WinningWindow() {
+            frame = new JFrame("Felicidades");
+            frame.setSize(380, 75);
             frame.setResizable(false);
             frame.setVisible(true);
-            initGUI();
+            frame.setLocationRelativeTo(null);
+            frame.add(initGUI());
+            frame.show();
             frame.pack();
         }
         
-        private void initGUI() {
+        private JPanel initGUI() {
             JPanel panelPrin = new JPanel(new GridLayout(2, 1));
             
             JPanel panelMsj = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            JLabel msj = new JLabel("Felicidades, has ganado. ¿Deseas seguir jugando?");
+            JLabel msj = new JLabel("Felicidades!!!, has ganado. ¿Deseas seguir jugando?");
             panelMsj.add(msj);
             
             JPanel panelButtons = new JPanel(new FlowLayout(FlowLayout.CENTER));
             
-            JButton playAgain = new JButton("Jugar de nuevo");
+            JButton playAgain = new JButton("Seguir jugando");
             playAgain.addActionListener(new ButtonCloseBackListener());
-            playAgain.setActionCommand("close");
+            playAgain.setActionCommand("back");
+            playAgain.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    frame.dispose();
+                }
+            });
             
             JButton exit = new JButton("Salir");
             exit.addActionListener(new ButtonCloseBackListener());
+            
             exit.setActionCommand("close");
             
             panelButtons.add(playAgain);
@@ -275,6 +286,12 @@ public class MainWindow {
             
             panelPrin.add(panelMsj);
             panelPrin.add(panelButtons);
+            
+            return panelPrin;
+        }
+        
+        public void closeWindow() {
+            frame.dispose();
         }
     }
     

@@ -5,7 +5,7 @@
  */
 package UI;
 
-import UI.MainWindow.WinWindow;
+import UI.MainWindow.WinningWindow;
 import game.Board;
 import java.awt.*;
 import java.awt.event.*;
@@ -56,17 +56,7 @@ public class TextFieldKeyListener implements KeyListener {
                 // If you want know if the answer is correct, the change the color by this one: #009966
                 origin.setForeground(Color.decode("#000000"));
                 if(board.isWon()) {
-                    WinWindow win = main.new WinWindow();
-                    /*JOptionPane.showOptionDialog(
-                            null,
-                            "Felicidades, has ganado. ¿Deseas seguir jugando?",
-                            "Felicidades!!!",
-                            JOptionPane.YES_NO_CANCEL_OPTION,
-                            JOptionPane.QUESTION_MESSAGE,
-                            null,
-                            options,
-                            options[0]
-                    );*/
+                    WinningWindow win = main.new WinningWindow();
                 }
             }
             else {
@@ -78,5 +68,10 @@ public class TextFieldKeyListener implements KeyListener {
     
     private boolean isNumber(Object num) {
         return true;
+    }
+    
+    private boolean countUserInput() {
+        boolean res = false;
+        return res;
     }
 }

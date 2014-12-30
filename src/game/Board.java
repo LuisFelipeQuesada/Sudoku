@@ -107,7 +107,7 @@ public class Board {
         return isWon;
     }
     
-    public boolean noEmptySpaces() {
+    /*public boolean noEmptySpaces() {
         return (emptySpaces == 0);
     }
     
@@ -121,7 +121,7 @@ public class Board {
             }
         }
         return spaces;
-    }
+    }*/
     
     public boolean getIsValid() {
         return is_valid;
