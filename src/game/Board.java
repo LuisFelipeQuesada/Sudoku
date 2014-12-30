@@ -11,12 +11,10 @@ public class Board {
     
     private int[][] matrix = null;
     private int[][] toUser = null;
-    private int row, col, data, emptySpaces = 0;
-    private boolean validationResult = false;
+    private int row, col, data = 0;
     private boolean is_valid, is_won = false;
     
     public Board(int[][] m, int level) {
-        emptySpaces = 0;
         this.matrix = m;
         this.toUser = createToUserMatrix(m);
         setEmptySpaces(level);
@@ -41,27 +39,34 @@ public class Board {
     }
     
     private void setEmptySpaces(int level) {
+        int counter = 0;
         switch(level) {
             case 0:
                 // 0 - 35
-                for(int counter = 0; counter < 25; counter++) {
-                    toUser[generateNumber()][generateNumber()] = 0;
-                    emptySpaces += 1;
-                }
+                do {
+                    if(toUser[generateNumber()][generateNumber()] != 0) {
+                        toUser[generateNumber()][generateNumber()] = 0;
+                        counter += 1;
+                    }
+                } while(counter <= 30);
                 break;
             case 1:
                 // 36 - 50
-                for(int counter = 0; counter < 40; counter++) {
-                    toUser[generateNumber()][generateNumber()] = 0;
-                    emptySpaces += 1;
-                }
+                do {
+                    if(toUser[generateNumber()][generateNumber()] != 0) {
+                        toUser[generateNumber()][generateNumber()] = 0;
+                        counter += 1;
+                    }
+                } while(counter <= 40);
                 break;
             case 2:
                 // 51 - 63
-                for(int counter = 0; counter < 55; counter++) {
-                    toUser[generateNumber()][generateNumber()] = 0;
-                    emptySpaces += 1;
-                }
+                do {
+                    if(toUser[generateNumber()][generateNumber()] != 0) {
+                        toUser[generateNumber()][generateNumber()] = 0;
+                        counter += 1;
+                    }
+                } while(counter <= 55);
                 break;
         }
     }
@@ -81,7 +86,6 @@ public class Board {
     public boolean validateInput(int row, int col, int d) {
         boolean isValid = false;
         if(matrix[row][col] == d) {
-            validationResult = true;
             TextFieldFocusListener.res = true;
             toUser[row][col] = d;
             isValid = true;

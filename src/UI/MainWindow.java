@@ -180,17 +180,25 @@ public class MainWindow {
         JTextField matrix[][] = cellsMatrix;
         for(int row = 0; row < data.length; row++) {
             for(int col = 0; col < data[row].length; col++) {
-                if(data[row][col] == 0) {
-                    matrix[row][col].setText("");
-                    matrix[row][col].setFocusable(true);
-                    Font f = new Font("SansSerif", Font.BOLD, 24);
-                    matrix[row][col].setFont(f);
-                }
-                else {
+                if(data[row][col] != 0) {
                     matrix[row][col].setText(String.valueOf(data[row][col]));
                     matrix[row][col].setEditable(false);
                     matrix[row][col].setBackground(Color.decode("#F0F0F0"));
                     matrix[row][col].setFocusable(false);
+                    /*matrix[row][col].setText("");
+                    matrix[row][col].setFocusable(true);
+                    Font f = new Font("SansSerif", Font.BOLD, 24);
+                    matrix[row][col].setFont(f);*/
+                }
+                else {
+                    /*matrix[row][col].setText(String.valueOf(data[row][col]));
+                    matrix[row][col].setEditable(false);
+                    matrix[row][col].setBackground(Color.decode("#F0F0F0"));
+                    matrix[row][col].setFocusable(false);*/
+                    matrix[row][col].setText("");
+                    matrix[row][col].setFocusable(true);
+                    Font f = new Font("SansSerif", Font.BOLD, 24);
+                    matrix[row][col].setFont(f);
                 }
             }
         }
