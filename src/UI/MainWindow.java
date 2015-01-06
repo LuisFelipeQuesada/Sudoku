@@ -18,8 +18,9 @@ public class MainWindow {
     JPanel windowPanel, panelOptions, boardPanel, boardPanelFooter = null;
     JButton buttonOption, buttonBack, buttonClose = null;
     
-    // Blocks for 3x3 matrix inside the board
+    // Bloques 3x3 para las submatrices
     ArrayList<JPanel> blocksList = null;
+    
     Board board = null;
             
     public MainWindow() {
@@ -62,7 +63,6 @@ public class MainWindow {
         boardPanelFooter.add(buttonBack);
     }
     
-    // Sets the panel that contains the difficulty options
     private JPanel createPanelForOptions() {
         panelOptions = new JPanel();
         GridBagLayout gridbaglayout = new GridBagLayout();
@@ -78,7 +78,6 @@ public class MainWindow {
         return panelOptions;
     }
     
-    // Adds itmes to the gridbag
     private void addItemToGrid(JPanel parent, JComponent component, GridBagConstraints constraints, int x, int y, int width, int height, int ipadX, int ipadY, Insets insets, int fill, int align) {
         constraints.gridx = x;
         constraints.gridy = y;
@@ -103,7 +102,7 @@ public class MainWindow {
         buttonOption = new JButton(name);
         buttonOption.setName(num);
         
-        // Listener and actions definitions for each button option
+        // "Listeners" y acciones de cada boton
         buttonOption.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -143,7 +142,6 @@ public class MainWindow {
         return buttonOption;
     }
     
-    // Creates each of the cells of the board
     private JTextField[][] createBoardCells() {
         JTextField[][] mat = new JTextField[9][9];
         JTextField text;
@@ -170,7 +168,6 @@ public class MainWindow {
         return mat;
     }
     
-    // Adds content to each cell
     private void fillBoardCells(JTextField[][] cellsMatrix, int[][] data) {
         JTextField matrix[][] = cellsMatrix;
         for(int row = 0; row < data.length; row++) {
@@ -191,7 +188,6 @@ public class MainWindow {
         }
     }
     
-    // Set the block in the parent: boardPanel
     private void setBlocks(JPanel parent) {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {

@@ -111,22 +111,6 @@ public class Board {
         return isWon;
     }
     
-    /*public boolean noEmptySpaces() {
-        return (emptySpaces == 0);
-    }
-    
-    private int countEmptySpaces() {
-        int spaces = 0;
-        for(int i = 0; i < toUser.length; i++) {
-            for(int j = 0; j < toUser[i].length; j++) {
-                if(toUser[i][j] == 0) {
-                    spaces += 1;
-                }
-            }
-        }
-        return spaces;
-    }*/
-    
     public boolean getIsValid() {
         return is_valid;
     }

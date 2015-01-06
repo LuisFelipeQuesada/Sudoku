@@ -26,7 +26,6 @@ public class TextFieldKeyListener implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
         getUserInput(e);
-        //countUserInput(e);
     }
 
     @Override
@@ -42,36 +41,18 @@ public class TextFieldKeyListener implements KeyListener {
             numberEntered = Integer.valueOf(String.valueOf(e.getKeyChar()));
             origin = (JTextField) e.getComponent();
 
-            // Based on the TextField name, the row an column are got
+            // Basado en el nombre del TextField se obtienen las filas y columnas
             String originName = origin.getName();
             index = originName.indexOf('.');
             row = Integer.valueOf(originName.substring(0, index));
             col = Integer.valueOf(originName.substring(index + 1, originName.length()));
 
             if(board.validateInput(row, col, numberEntered)) {
-                // If you want know if the answer is correct, the change the color by this one: #009966
                 origin.setForeground(Color.decode("#000000"));
                 if(board.isWon()) {
                     WinningWindow win = main.new WinningWindow();
                 }
             }
-            else {
-                // If the result is not valid, the number is put in red
-                //origin.setForeground(Color.decode("#CC0000"));
-            }
         } catch(NumberFormatException exception) {}
     }
-    
-    private boolean isNumber(Object num) {
-        return true;
-    }
-    
-    /*private boolean countUserInput(KeyEvent e) {
-        boolean res = false;
-        String userInput = (((JTextField) e.getComponent()).getText());
-        if(userInput.length() > 1) {
-            (((JTextField) e.getComponent()).
-        }
-        return res;
-    }*/
 }
