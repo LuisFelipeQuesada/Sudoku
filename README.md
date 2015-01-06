@@ -1,3 +1,3 @@
 sudoku
 ======
-Suudoku game
+Sudoku game
