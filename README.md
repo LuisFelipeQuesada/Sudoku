@@ -1,3 +1,1 @@
-sudoku
-======
-Sudoku game
+Juego Sudoku en Java
